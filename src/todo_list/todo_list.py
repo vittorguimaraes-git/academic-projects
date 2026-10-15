@@ -36,11 +36,9 @@
 #    - Encapsula remoção por nome, simplificando case 8.
 
 import json
-from datetime import date, datetime
-
+from datetime import date
 from src.todo_list.helpers.visual import make_line, print_centered, show_menu
-from src.todo_list.helpers.getters import get_warning, get_priority_order, get_priority_icon
-from src.todo_list.helpers.functions import add_task
+from src.todo_list.helpers.functions import add_task, list_tasks, edit_task
 from src.todo_list.helpers.validators import validate_date
 
 try:
@@ -77,21 +75,12 @@ while True:
 
     match command:
         case 1:
-            done = sum(1 for t in todo if t["status"])
-            undone = len(todo) - done
-
             if not todo:
                 make_line("=", 50)
                 print_centered("There are no tasks", 45)
                 make_line("=", 50)
             else:
-                make_line("=", 50)
-                for task in sorted(todo, key=get_priority_order, reverse=True):
-                    markup = "[x]" if task["status"] else "[ ]"
-                    icon = get_priority_icon(task)
-                    print(f"{markup} {task['description'].title()} {icon} | {get_warning(task)}")
-                make_line("=", 50)
-                print(f"\n✅ {done} Completed tasks | ⏳ {undone} Pending tasks\n")
+                list_tasks(todo)
 
         case 2:
             if not todo:
@@ -99,19 +88,7 @@ while True:
                 print_centered("There are no tasks", 45)
                 make_line("=", 50)
             else:
-                count = 0
-                make_line("=", 50)
-                for task in todo:
-                    if task["status"]:
-                        icon = get_priority_icon(task)
-                        markup = "[x]" if task["status"] else "[ ]"
-                        print(f"{markup} {task['description'].title()} {icon} | {get_warning(task)}")
-                    else:
-                        count += 1
-                if count == len(todo):
-                    print_centered("There are no completed tasks", 45)
-                make_line("=", 50)
-                print(f"\n✅ {len(todo) - count} Completed tasks\n")
+                list_tasks(todo, "completed")
 
         case 3:
             if not todo:
@@ -119,18 +96,7 @@ while True:
                 print_centered("There are no tasks", 45)
                 make_line("=", 50)
             else:
-                count = 0
-                make_line("=", 35)
-                for task in todo:
-                    if not task["status"]:
-                        icon = get_priority_icon(task)
-                        print(f"[ ] {task['description'].title()} {icon} | {get_warning(task)}")
-                    else:
-                        count += 1
-                if count == len(todo):
-                    print_centered("There are no pending tasks", 35)
-                make_line("=", 35)
-                print(f"\n⏳ {len(todo) - count} Pending tasks\n")
+                list_tasks(todo, "pending")
 
         case 4:
             if not todo:
@@ -138,26 +104,8 @@ while True:
                 print_centered("There are no tasks", 45)
                 make_line("=", 50)
             else:
-                count = 0
                 key_word = input("Enter a keyword: ").strip().lower()
-                make_line("=", 50)
-                for task in sorted(todo, key=get_priority_order, reverse=True):
-                    if key_word in task["description"]:
-                        if task["date_to_complete"] is None:
-                            is_late = False
-                            warning = "No due date set"
-                        else:
-                            is_late = datetime.strptime(task["date_to_complete"], "%Y-%m-%d").date() < date.today()
-                            warning = "That task is overdue!" if is_late else f"Due: {task['date_to_complete']}"
-
-                        markup = "[x]" if task["status"] else "[ ]"
-                        icon = get_priority_icon(task)
-                        print(f"{markup} {task['description'].title()} {icon} {get_warning(task)}")
-                    else:
-                        count += 1
-                if count == len(todo):
-                    print(f"There are no tasks with the keyword '{key_word}'")
-                make_line("=", 50)
+                list_tasks(todo, keywords=key_word)
 
         case 5:
             while True:
@@ -206,8 +154,6 @@ while True:
                         add_task(desc, priority, todo=todo)
                         break
 
-
-
                 except ValueError:
                     make_line("=", 50)
                     print_centered("Please enter a valid description or priority", 45)
@@ -245,36 +191,72 @@ while True:
 
         case 7:
             try:
-                edit = int(input("Enter the task number: "))
-                new_description = input("Enter a new description: ").strip().lower()
-                new_priority = input("Enter a new priority (high | medium | low): ").strip().lower()
-                confirmation = input("Do you really want to edit the task? [y/n]: ").strip().lower()
+                seen = 0
+                name = input("Enter the task name: ")
 
-                if new_priority not in ["high", "medium", "low"] or not new_priority:
+                for task in todo:
+                    if not name == task["description"]:
+                        seen += 1
+                if seen == len(todo):
                     make_line("=", 50)
-                    print_centered("Invalid priority", 45)
-                    make_line("=", 50)
-                elif not new_description:
-                    make_line("=", 50)
-                    print_centered("Description cannot be empty", 45)
-                    make_line("=", 50)
-                elif confirmation in ["y", "yes"]:
-                    todo[edit - 1]["description"] = new_description
-                    todo[edit - 1]["status"] = False
-                    todo[edit - 1]["priority"] = new_priority
-                    print(f"✏️ Task updated to: {new_description}\n")
-                elif confirmation in ["n", "no"]:
-                    make_line("=", 50)
-                    print_centered("Task not edited", 45)
+                    print_centered(f"There are no task named '{name}'", 45)
                     make_line("=", 50)
                 else:
-                    make_line("=", 50)
-                    print_centered("Invalid option", 45)
-                    make_line("=", 50)
+                    confirmation = input("Do you really want to edit the task? [y/n]: ").strip().lower()
 
-            except (ValueError, IndexError):
+                    if confirmation in ["y", "yes"]:
+                        print()
+                        make_line("=", 50)
+                        print_centered(f"Editing the task '{name}'", 45)
+                        make_line("=", 50)
+                        print()
+
+                        new_description = input("Enter a new description: ").strip().lower()
+
+                        if not new_description:
+                            make_line("=", 50)
+                            print_centered("Description cannot be empty", 45)
+                            make_line("=", 50)
+
+                        new_priority = input("Enter a new priority (high | medium | low): ").strip().lower()
+
+                        if new_priority not in ["high", "medium", "low"] or not new_priority:
+                            make_line("=", 50)
+                            print_centered("Invalid priority", 45)
+                            make_line("=", 50)
+
+                        date_confirmation = input("Do you want add a date for complete your task? [y/n]: ").strip().lower()
+                        print()
+
+                        while date_confirmation not in ["y", "n"]:
+                            make_line("=", 50)
+                            print_centered("Please enter 'y' or 'n'", 45)
+                            make_line("=", 50)
+                            print()
+                            date_confirmation = input("Do you want add a date for complete your task? [y/n]: ").strip().lower()
+
+                        if date_confirmation in "y":
+                            valid, user_date = validate_date()
+
+                            if valid:
+                                edit_task(tasks=todo, name=name, new_description=new_description, new_priority=new_priority, new_due_date= user_date)
+
+                        elif date_confirmation in ["n", "no"]:
+                            edit_task(tasks=todo, name=name, new_description=new_description, new_priority=new_priority)
+
+                    elif confirmation in ["n", "no"]:
+                        make_line("=", 50)
+                        print_centered("Task not edited", 45)
+                        make_line("=", 50)
+                        break
+                    else:
+                        make_line("=", 50)
+                        print_centered("Invalid option", 45)
+                        make_line("=", 50)
+
+            except ValueError:
                 make_line("=", 50)
-                print_centered("Invalid task", 45)
+                print_centered("Enter a valid description or a valid priority", 45)
                 make_line("=", 50)
 
         case 8:
