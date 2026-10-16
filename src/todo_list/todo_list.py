@@ -1,44 +1,7 @@
-# ============================================================
-# Refatoração - Funções prioritárias a criar
-# ============================================================
-
-# 🔴 Alta prioridade (primeiro a implementar)
-# 1. print_centered(msg, width=50)
-#    - Centraliza mensagens e imprime separadores.
-#    - Evita repetição de make_line("=", 50) e print_centered(...).
-
-# 2. get_warning(task)
-#    - Retorna aviso sobre status da tarefa:
-#      * "Task completed" se concluída
-#      * "No due date set" se sem prazo
-#      * "That task is overdue!" se atrasada
-#      * "Due: YYYY-MM-DD" se prazo válido
-#    - Centraliza lógica usada em vários cases.
-
-# 3. validate_priority(priority)
-#    - Verifica se prioridade está entre ["high", "medium", "low"].
-#    - Evita duplicação de if priority not in [...]
-
-# 🟡 Prioridade média (depois de limpar o básico)
-# 4. add_task(desc, priority, date_to_complete=None)
-#    - Encapsula lógica de adicionar tarefa.
-#    - Facilita manutenção e consistência no JSON.
-
-# 5. list_tasks(filter=None, keyword=None)
-#    - Generaliza listagem (todas, concluídas, pendentes, por palavra-chave).
-#    - Evita blocos repetidos nos cases 1, 2, 3 e 4.
-
-# 🟢 Prioridade baixa (quando já estiver organizado)
-# 6. edit_task(index, new_desc, new_priority)
-#    - Encapsula edição de tarefa, simplificando case 7.
-
-# 7. remove_task(name)
-#    - Encapsula remoção por nome, simplificando case 8.
-
 import json
 from datetime import date
 from src.todo_list.helpers.visual import make_line, print_centered, show_menu
-from src.todo_list.helpers.functions import add_task, list_tasks, edit_task
+from src.todo_list.helpers.functions import add_task, list_tasks, edit_task, remove_task
 from src.todo_list.helpers.validators import validate_date
 
 try:
@@ -267,30 +230,7 @@ while True:
                     make_line("=", 50)
                 else:
                     remove = input("Enter the task name: ").strip().lower()
-                    found = False
-
-                    for i, task in enumerate(todo):
-                        if task["description"] == remove:
-                            confirmation = input("Do you really want to remove the task? [y/n]: ").strip().lower()
-                            if confirmation in ["y", "yes"]:
-                                todo.pop(i)
-                                print(f"🗑️ Task '{task["description"]}' removed successfully\n")
-                            elif confirmation in ["n", "no"]:
-                                make_line("=", 50)
-                                print_centered("Task not removed", 45)
-                                make_line("=", 50)
-                            else:
-                                make_line("=", 50)
-                                print_centered("Invalid option", 45)
-                                make_line("=", 50)
-
-                            found = True
-                            break
-
-                    if not found:
-                        make_line("=", 50)
-                        print_centered("Task not found.", 45)
-                        make_line("=", 50)
+                    remove_task(todo, remove)
 
             except Exception:
                 make_line("=", 50)

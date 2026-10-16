@@ -133,6 +133,33 @@ def edit_task(tasks, name: str, new_description: str, new_priority: str, new_due
     return None
 
 
+def remove_task(tasks, name: str):
+    for task in tasks:
+        if name == task["description"]:
+            while True:
+                confirmation = input("Do you really want to remove this task? [y/n]: ").strip().lower()
+                if confirmation in ["y", "yes", "n", "no"]:
+                    break
+                else:
+                    print("=" * 50)
+                    print("Invalid option".center(45))
+                    print("=" * 50)
+
+            if confirmation in ["y", "yes"]:
+                tasks.remove(task)
+                print(f"🗑️ Task '{task["description"]}' removed successfully\n")
+                break
+
+            elif confirmation in ["n", "no"]:
+                print("=" * 50)
+                print("Task not removed".center(45))
+                print("=" * 50)
+                break
+
+    return name
+
+
+
 
 
 

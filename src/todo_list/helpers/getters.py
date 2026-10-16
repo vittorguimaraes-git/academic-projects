@@ -21,7 +21,6 @@ def get_priority_order(task):
     return priority_order[task["priority"]]
 
 
-
 def get_priority_icon(task):
     icons = {"high": "🔴", "medium": "🟡", "low": "🟢"}
     return icons[task["priority"]]
