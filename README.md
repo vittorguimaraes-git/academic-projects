@@ -42,6 +42,12 @@ python -m src.todo_list.todo_list
 
 Choose an option from the menu and follow the prompts. Task data is saved to `tasks.json` in the directory where you run the command.
 
+## 🔮 Planned improvements
+
+- Unit tests for the functions
+- A graphical interface
+- Advanced filters
+
 ---
 
 ✨ More projects coming as I keep learning and building.
