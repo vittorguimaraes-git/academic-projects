@@ -1,18 +1,18 @@
 class Transaction:
-    def __init__(self, amount: float, description: str, transaction_type: str):
+    def __init__(self, description: str, amount: float, transaction_type: str):
 
         if amount <= 0:
-            raise ValueError
+            raise ValueError("Amount must be positive")
 
         if not description:
-            raise ValueError
+            raise ValueError("Description cannot be empty")
 
         if transaction_type not in ['income', 'expense']:
-            raise ValueError
+            raise ValueError("Transaction type must be 'income' or 'expense'")
 
         self._amount = amount
         self._description = description
-        self._trasaction_type = transaction_type
+        self._transaction_type = transaction_type
 
     @property
     def amount(self):
@@ -23,5 +23,10 @@ class Transaction:
         return self._description
 
     @property
-    def trasaction_type(self):
-        return self._trasaction_type
+    def transaction_type(self):
+        return self._transaction_type
+
+    def to_dict(self) -> dict:
+        return {"description": self._description,
+                "amount": self._amount,
+                "transaction_type": self._transaction_type}
