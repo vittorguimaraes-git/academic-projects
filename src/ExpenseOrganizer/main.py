@@ -1,13 +1,32 @@
 from ExpenseOrganizer.models.transaction import Transaction
+from ExpenseOrganizer.repository.repository import TransactionRepository
 from ExpenseOrganizer.models.organizer import Organizer
 
+# 🟡 MVP 2 — Manutenção de transações (com histórico)
 
-trasaction = Transaction("Mercado", 400, "expense")
-trasaction2 = Transaction("Trabalho", 1000, "income")
-transactions = [trasaction, trasaction2]
+# - Implementar edit_transaction(id, new_data) para editar transações
+#   ➡️ Mas sem perder os dados antigos:
+#   - Antes de sobrescrever os campos, salvar os valores atuais em um campo "history"
+#   - O "history" pode ser uma lista de dicionários dentro da transação
+#   - Cada item do histórico deve registrar:
+#       {"field": "amount", "old_value": 3000, "edited_at": "2026-10-22 15:50:00"}
+#   - Assim, toda alteração fica rastreável e auditável
+#   - Importante em sistemas financeiros: nunca apagar dados, apenas marcar correções
 
-manager = Organizer(transactions)
-manager.add_transaction("Churrasco", 400, "expense")
-manager.show_transactions(filter_transaction="expense")
-manager.show_transactions(filter_transaction="income")
-manager.show_balance()
+# - Implementar remove_transaction(id) para remover transações
+#   ➡️ Decidir se a remoção será:
+#   - "hard delete" (excluir de vez da lista e reescrever o JSON)
+#   - ou "soft delete" (marcar a transação como removida, ex: {"deleted": True})
+#   - Soft delete preserva histórico e evita perda de dados
+
+repo = TransactionRepository()
+transactions = repo.load("transactions.json")
+new_transaction = Transaction("TestDate", 1000, "expense")
+new_transaction2 = Transaction("Carro", 2000, "expense")
+
+organizer = Organizer(transactions)
+organizer.show_monthly_report(2026, 10)
+
+
+repo.save("transactions.json", organizer.transactions)
+

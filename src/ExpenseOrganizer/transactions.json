@@ -1,0 +1,30 @@
+[
+    {
+        "description": "test",
+        "amount": 10,
+        "transaction_type": "income",
+        "transaction_date": "2026-10-21",
+        "transaction_time": "18:45:16"
+    },
+    {
+        "description": "carro",
+        "amount": 2000,
+        "transaction_type": "income",
+        "transaction_date": "2026-10-21",
+        "transaction_time": "19:22:27"
+    },
+    {
+        "description": "testdate",
+        "amount": 1000,
+        "transaction_type": "expense",
+        "transaction_date": "2026-10-22",
+        "transaction_time": "15:35:12"
+    },
+    {
+        "description": "testdate",
+        "amount": 1000,
+        "transaction_type": "expense",
+        "transaction_date": "2026-10-22",
+        "transaction_time": "15:35:25"
+    }
+]
