@@ -13,3 +13,5 @@ class TransactionRepository:
     def save(self, path: str, transactions: List[Transaction]):
         with open(path, "w", encoding= "utf-8") as f:
             json.dump([t.to_dict() for t in transactions], f, indent=4, ensure_ascii=False)
+
+

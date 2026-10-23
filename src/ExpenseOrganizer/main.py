@@ -20,12 +20,14 @@ from ExpenseOrganizer.models.organizer import Organizer
 #   - Soft delete preserva histórico e evita perda de dados
 
 repo = TransactionRepository()
+
 transactions = repo.load("transactions.json")
-new_transaction = Transaction("TestDate", 1000, "expense")
-new_transaction2 = Transaction("Carro", 2000, "expense")
+new_transaction = Transaction("expensetest", 1000, "expense")
+new_transaction2 = Transaction("incometest", 2000, "income")
 
 organizer = Organizer(transactions)
-organizer.show_monthly_report(2026, 10)
+organizer.find_by_description("edit_test", "expense")
+
 
 
 repo.save("transactions.json", organizer.transactions)

@@ -1,7 +1,8 @@
-from datetime import datetime
 from typing import Optional, List
+from datetime import datetime
 from src.ExpenseOrganizer.models.transaction import Transaction
 from src.ExpenseOrganizer.helpers.functions import format_transactions, format_balance, format_report
+from src.ExpenseOrganizer.repository.repository import TransactionRepository
 
 
 class Organizer:
@@ -36,10 +37,23 @@ class Organizer:
 
         format_report(self._get_dict_transactions(), year, month)
 
-    def find_by_description(self, desc: str) -> List[Transaction]:
-        return [
-            t for t in self._transactions if t.description in desc
+    def edit_transaction(self, field: str, date: str, time: str, new_value) -> None:
+
+        for transaction in self._transactions:
+            if date == transaction.transaction_date and time == transaction.transaction_time:
+                transaction.history.append({"field": field, "old_value": getattr(transaction, field), "edited_at": datetime.now().strftime("%Y-%m-%d | %H:%M:%S")})
+                setattr(transaction, field, new_value)
+
+        repo = TransactionRepository()
+        repo.save("transactions.json", self._transactions)
+
+
+    def find_by_description(self, desc: str, filter_transaction: Optional[str] = None) -> None:
+        filtered = [
+            t.to_dict() for t in self._transactions if t.description in desc
         ]
+
+        format_transactions(filtered, filter_transaction)
 
     def _get_dict_transactions(self):
         return [

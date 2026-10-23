@@ -13,17 +13,33 @@ class Transaction:
     def amount(self):
         return self._amount
 
+    @amount.setter
+    def amount(self, value):
+        self._amount = value
+
     @property
     def description(self):
         return self._description
+
+    @description.setter
+    def description(self, value):
+        self._description = value
 
     @property
     def transaction_type(self):
         return self._transaction_type
 
+    @transaction_type.setter
+    def transaction_type(self, value):
+        self._transaction_type = value
+
     @property
     def transaction_date(self):
         return self._transaction_date
+
+    @transaction_date.setter
+    def transaction_date(self, value):
+        self._transaction_date = value
 
     @transaction_date.setter
     def transaction_date(self, value):
@@ -37,6 +53,14 @@ class Transaction:
     def transaction_time(self, value):
         self._transaction_time = value
 
+    @property
+    def history(self):
+        return self._history
+
+    @history.setter
+    def history(self, value):
+        self._history = value
+
     @classmethod
     def from_dict(cls, data: dict):
         t = cls(
@@ -46,8 +70,8 @@ class Transaction:
         )
         t.transaction_date = data.get("transaction_date")
         t.transaction_time = data.get("transaction_time")
+        t.history = data.get("history")
         return t
-
 
     def to_dict(self) -> dict:
         return {"description": self._description.lower(),
