@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class Transaction:
     def __init__(self, description: str, amount: float, transaction_type: str):
         self._amount = amount
@@ -8,6 +9,7 @@ class Transaction:
         self._transaction_date = datetime.now().strftime("%Y-%m-%d")
         self._transaction_time = datetime.now().strftime("%H:%M:%S")
         self._history = []
+        self._removed = False
 
     @property
     def amount(self):
@@ -61,6 +63,14 @@ class Transaction:
     def history(self, value):
         self._history = value
 
+    @property
+    def removed(self):
+        return self._removed
+
+    @removed.setter
+    def removed(self, value):
+        self._removed = value
+
     @classmethod
     def from_dict(cls, data: dict):
         t = cls(
@@ -71,6 +81,7 @@ class Transaction:
         t.transaction_date = data.get("transaction_date")
         t.transaction_time = data.get("transaction_time")
         t.history = data.get("history")
+        t.removed = data.get("removed")
         return t
 
     def to_dict(self) -> dict:
@@ -79,5 +90,6 @@ class Transaction:
                 "transaction_type": self._transaction_type,
                 "transaction_date": self._transaction_date,
                 "transaction_time": self._transaction_time,
-                "history": self._history
+                "history": self._history,
+                "removed": self._removed
                 }

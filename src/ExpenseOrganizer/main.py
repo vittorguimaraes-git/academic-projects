@@ -23,12 +23,16 @@ repo = TransactionRepository()
 
 transactions = repo.load("transactions.json")
 new_transaction = Transaction("expensetest", 1000, "expense")
-new_transaction2 = Transaction("incometest", 2000, "income")
-
+new_transaction2 = Transaction("remove_test", 2000, "income")
 organizer = Organizer(transactions)
-organizer.find_by_description("edit_test", "expense")
+# organizer.add_transaction(new_transaction)
+# organizer.edit_transaction(parameters)
+# organizer.remove_transactions(parameters)
+
+
 
 
 
 repo.save("transactions.json", organizer.transactions)
+# repo.export_report("transactions.json", "reports.csv")
 

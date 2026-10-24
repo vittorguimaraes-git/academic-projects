@@ -38,13 +38,21 @@ class Organizer:
         format_report(self._get_dict_transactions(), year, month)
 
     def edit_transaction(self, field: str, date: str, time: str, new_value) -> None:
-
+        repo = TransactionRepository()
         for transaction in self._transactions:
-            if date == transaction.transaction_date and time == transaction.transaction_time:
+            if transaction.removed:
+                raise ValueError("Transaction was removed")
+            elif date == transaction.transaction_date and time == transaction.transaction_time:
                 transaction.history.append({"field": field, "old_value": getattr(transaction, field), "edited_at": datetime.now().strftime("%Y-%m-%d | %H:%M:%S")})
                 setattr(transaction, field, new_value)
+        repo.save("transactions.json", self._transactions)
 
+    def remove_transactions(self, desc: str, date: str, time: str) -> None:
         repo = TransactionRepository()
+        for transaction in self._transactions:
+            if date == transaction.transaction_date and time == transaction.transaction_time and desc == transaction.description:
+                transaction.removed = True
+                transaction.history = {"removed_at": datetime.now().strftime("%Y-%m-%d | %H:%M:%S")}
         repo.save("transactions.json", self._transactions)
 
 

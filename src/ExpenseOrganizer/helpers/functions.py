@@ -1,6 +1,7 @@
 import locale
 from typing import Optional, List
 
+
 def format_currency(value: float) -> str:
     locale.setlocale(locale.LC_MONETARY, 'pt_BR.UTF-8')
     return locale.currency(value, symbol=True, grouping=True)

@@ -16,7 +16,8 @@
                 "old_value": "expensetest",
                 "edited_at": "2026-10-23 | 11:07:24"
             }
-        ]
+        ],
+        "removed": null
     },
     {
         "description": "edit_test",
@@ -35,6 +36,18 @@
                 "old_value": "incometest",
                 "edited_at": "2026-10-23 | 11:07:24"
             }
-        ]
+        ],
+        "removed": null
+    },
+    {
+        "description": "remove_test",
+        "amount": 2000,
+        "transaction_type": "income",
+        "transaction_date": "2026-10-24",
+        "transaction_time": "02:22:16",
+        "history": {
+            "removed_at": "2026-10-24 | 14:18:50"
+        },
+        "removed": true
     }
 ]
