@@ -30,6 +30,18 @@ A terminal-based task manager with priorities and optional due dates. Tasks can 
 - Mark tasks complete, edit them, or delete them
 - Store tasks locally as JSON
 
+### 💰 Expense Organizer
+
+A personal finance helper for tracking income and expenses, reviewing balances, and organizing transaction history in a simple Python workflow.
+
+**Features**
+
+- Record income and expense transactions
+- Save transaction data locally in JSON
+- View all entries and filter by category or type
+- Review balance and monthly reports
+- Track transaction history and removals
+
 ## 🛠️ Run it
 
 Requires Python 3.14 or later.
