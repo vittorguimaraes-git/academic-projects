@@ -1,53 +1,29 @@
 [
     {
-        "description": "edit_test",
+        "description": "expensetest",
         "amount": 1000,
         "transaction_type": "expense",
-        "transaction_date": "2026-10-23",
-        "transaction_time": "10:33:08",
-        "history": [
-            {
-                "field": "amount",
-                "old_value": 2000,
-                "edited_at": "2026-10-23 | 11:01:20"
-            },
-            {
-                "field": "description",
-                "old_value": "expensetest",
-                "edited_at": "2026-10-23 | 11:07:24"
-            }
-        ],
-        "removed": null
-    },
-    {
-        "description": "edit_test",
-        "amount": 1000,
-        "transaction_type": "income",
-        "transaction_date": "2026-10-23",
-        "transaction_time": "10:33:08",
-        "history": [
-            {
-                "field": "amount",
-                "old_value": 2000,
-                "edited_at": "2026-10-23 | 11:01:20"
-            },
-            {
-                "field": "description",
-                "old_value": "incometest",
-                "edited_at": "2026-10-23 | 11:07:24"
-            }
-        ],
-        "removed": null
+        "transaction_date": "2026-11-03",
+        "transaction_time": "12:17:01",
+        "history": [],
+        "removed": false
     },
     {
         "description": "remove_test",
         "amount": 2000,
         "transaction_type": "income",
-        "transaction_date": "2026-10-24",
-        "transaction_time": "02:22:16",
-        "history": {
-            "removed_at": "2026-10-24 | 14:18:50"
-        },
-        "removed": true
+        "transaction_date": "2026-11-03",
+        "transaction_time": "12:17:10",
+        "history": [],
+        "removed": false
+    },
+    {
+        "description": "remove_test",
+        "amount": 2000,
+        "transaction_type": "income",
+        "transaction_date": "2026-11-03",
+        "transaction_time": "12:17:10",
+        "history": [],
+        "removed": false
     }
 ]
