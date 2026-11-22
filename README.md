@@ -38,9 +38,22 @@ A personal finance helper for tracking income and expenses, reviewing balances, 
 
 - Record income and expense transactions
 - Save transaction data locally in JSON
-- View all entries and filter by category or type
+- View all entries and filter by transaction type
 - Review balance and monthly reports
+- Export transactions to CSV
 - Track transaction history and removals
+
+### 📚 Library Manager
+
+A library management system for organizing books, users, and loans using SQLite.
+
+**Features**
+
+- Register and list books
+- Store book availability
+- Register and list users
+- Borrow and return books
+- View active loans
 
 ## 🛠️ Run it
 
@@ -59,6 +72,8 @@ Choose an option from the menu and follow the prompts. Task data is saved to `ta
 - Unit tests for the functions
 - A graphical interface
 - Advanced filters
+- Transaction editing and removal workflows
+- Additional report export formats
 
 ---
 
