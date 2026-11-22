@@ -60,8 +60,8 @@ A library management system for organizing books, users, and loans using SQLite.
 Requires Python 3.14 or later.
 
 ```sh
-git clone https://github.com/vittorguimaraes-git/projects.git
-cd projects
+git clone https://github.com/vittorguimaraes-git/academic-projects.git
+cd academic-projects
 python -m src.todo_list.todo_list
 ```
 
