@@ -62,10 +62,28 @@ Requires Python 3.14 or later.
 ```sh
 git clone https://github.com/vittorguimaraes-git/academic-projects.git
 cd academic-projects
+```
+
+**To-do List**
+
+```sh
 python -m src.todo_list.todo_list
 ```
 
 Choose an option from the menu and follow the prompts. Task data is saved to `tasks.json` in the directory where you run the command.
+
+**Expense Organizer**
+
+```sh
+python -m src.ExpenseOrganizer.main
+```
+
+**Library Manager**
+
+```sh
+cd src
+python -m LibraryManager.main
+```
 
 ## 🔮 Planned improvements
 
